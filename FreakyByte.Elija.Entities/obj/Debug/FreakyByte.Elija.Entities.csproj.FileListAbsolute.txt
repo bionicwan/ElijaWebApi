@@ -1,0 +1,7 @@
+C:\Users\Juan Carlos\Documents\Visual Studio 2012\Projects\FreakyByte.Elija.WebApi\FreakyByte.Elija.Entities\bin\Debug\FreakyByte.Elija.Entities.dll
+C:\Users\Juan Carlos\Documents\Visual Studio 2012\Projects\FreakyByte.Elija.WebApi\FreakyByte.Elija.Entities\bin\Debug\FreakyByte.Elija.Entities.pdb
+C:\Users\Juan Carlos\Documents\Visual Studio 2012\Projects\FreakyByte.Elija.WebApi\FreakyByte.Elija.Entities\bin\Debug\FreakyByte.Elija.DataAccess.dll
+C:\Users\Juan Carlos\Documents\Visual Studio 2012\Projects\FreakyByte.Elija.WebApi\FreakyByte.Elija.Entities\bin\Debug\FreakyByte.Elija.DataAccess.pdb
+C:\Users\Juan Carlos\Documents\Visual Studio 2012\Projects\FreakyByte.Elija.WebApi\FreakyByte.Elija.Entities\obj\Debug\FreakyByte.Elija.Entities.csprojResolveAssemblyReference.cache
+C:\Users\Juan Carlos\Documents\Visual Studio 2012\Projects\FreakyByte.Elija.WebApi\FreakyByte.Elija.Entities\obj\Debug\FreakyByte.Elija.Entities.dll
+C:\Users\Juan Carlos\Documents\Visual Studio 2012\Projects\FreakyByte.Elija.WebApi\FreakyByte.Elija.Entities\obj\Debug\FreakyByte.Elija.Entities.pdb

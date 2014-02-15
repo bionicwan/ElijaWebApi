@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreakyByte.Elija.WebApi", "FreakyByte.Elija.WebApi\FreakyByte.Elija.WebApi.csproj", "{8B2D625A-DCD4-4EB1-95C3-9587F492A740}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreakyByte.Elija.DataAccess", "FreakyByte.Elija.DataAccess\FreakyByte.Elija.DataAccess.csproj", "{207E6121-B4C9-43B1-972C-7B8A107E6D23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreakyByte.Elija.Processing", "FreakyByte.Elija.Processing\FreakyByte.Elija.Processing.csproj", "{A14FE6BC-4544-411E-A229-2515F92295D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreakyByte.Elija.Entities", "FreakyByte.Elija.Entities\FreakyByte.Elija.Entities.csproj", "{97C81929-B6A1-4D27-AA26-5CC9A8509131}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreakyByte.Elija.Core", "FreakyByte.Elija.Core\FreakyByte.Elija.Core.csproj", "{870AE4DF-5691-4885-817D-78D011745D03}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B2D625A-DCD4-4EB1-95C3-9587F492A740}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B2D625A-DCD4-4EB1-95C3-9587F492A740}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B2D625A-DCD4-4EB1-95C3-9587F492A740}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B2D625A-DCD4-4EB1-95C3-9587F492A740}.Release|Any CPU.Build.0 = Release|Any CPU
+		{207E6121-B4C9-43B1-972C-7B8A107E6D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{207E6121-B4C9-43B1-972C-7B8A107E6D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{207E6121-B4C9-43B1-972C-7B8A107E6D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{207E6121-B4C9-43B1-972C-7B8A107E6D23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A14FE6BC-4544-411E-A229-2515F92295D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A14FE6BC-4544-411E-A229-2515F92295D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A14FE6BC-4544-411E-A229-2515F92295D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A14FE6BC-4544-411E-A229-2515F92295D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97C81929-B6A1-4D27-AA26-5CC9A8509131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97C81929-B6A1-4D27-AA26-5CC9A8509131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97C81929-B6A1-4D27-AA26-5CC9A8509131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97C81929-B6A1-4D27-AA26-5CC9A8509131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{870AE4DF-5691-4885-817D-78D011745D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{870AE4DF-5691-4885-817D-78D011745D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{870AE4DF-5691-4885-817D-78D011745D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{870AE4DF-5691-4885-817D-78D011745D03}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
