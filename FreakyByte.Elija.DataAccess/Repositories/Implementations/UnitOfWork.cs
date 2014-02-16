@@ -1,38 +1,62 @@
-﻿namespace FreakyByte.Elija.DataAccess.Repositories.Implementations
+﻿using System;
+using FreakyByte.Elija.DataAccess.Model;
+
+namespace FreakyByte.Elija.DataAccess.Repositories.Implementations
 {
-    using System;
-
-    using FreakyByte.Elija.DataAccess.Model;
-
     public class UnitOfWork : IDisposable
     {
+        private readonly DbContextFactory _dbContextFactory = new DbContextFactory();
 
-        private ElijaEntities Context { get; set; }
-
-        private readonly DbContextFactory dbContextFactory = new DbContextFactory();
-
-        private Repository<User> userRepository;
-
-        private Repository<UserDevice> userDeviceRepository;
-
-        private Repository<Device> deviceRepository;
-
-        private Repository<Authentication> authenticationRepository;
+        private Repository<Article> _articleRepository;
+        private Repository<Authentication> _authenticationRepository;
+        private Repository<Device> _deviceRepository;
+        private bool _disposed;
+        private Repository<Image> _imageRepository;
+        private Repository<Section> _sectionRepository;
+        private Repository<UserDevice> _userDeviceRepository;
+        private Repository<User> _userRepository;
 
         public UnitOfWork()
         {
-            this.Context = this.dbContextFactory.GetDbContext();
+            Context = _dbContextFactory.GetDbContext();
+            Context.ContextOptions.LazyLoadingEnabled = true;
+        }
+
+        private ElijaEntities Context { get; set; }
+
+        public Repository<Image> ImageRepository
+        {
+            get
+            {
+                if (_imageRepository == null)
+                {
+                    _imageRepository = new Repository<Image>(Context);
+                }
+                return _imageRepository;
+            }
+        }
+
+        public Repository<Article> ArticleRepository
+        {
+            get
+            {
+                if (_articleRepository == null)
+                {
+                    _articleRepository = new Repository<Article>(Context);
+                }
+                return _articleRepository;
+            }
         }
 
         public Repository<User> UserRepository
         {
             get
             {
-                if (this.userRepository == null)
+                if (_userRepository == null)
                 {
-                    this.userRepository = new Repository<User>(this.Context);
+                    _userRepository = new Repository<User>(Context);
                 }
-                return this.userRepository;
+                return _userRepository;
             }
         }
 
@@ -40,11 +64,11 @@
         {
             get
             {
-                if (this.authenticationRepository == null)
+                if (_authenticationRepository == null)
                 {
-                    this.authenticationRepository = new Repository<Authentication>(this.Context);
+                    _authenticationRepository = new Repository<Authentication>(Context);
                 }
-                return this.authenticationRepository;
+                return _authenticationRepository;
             }
         }
 
@@ -52,11 +76,11 @@
         {
             get
             {
-                if (this.userDeviceRepository == null)
+                if (_userDeviceRepository == null)
                 {
-                    this.userDeviceRepository = new Repository<UserDevice>(this.Context);
+                    _userDeviceRepository = new Repository<UserDevice>(Context);
                 }
-                return this.userDeviceRepository;
+                return _userDeviceRepository;
             }
         }
 
@@ -64,37 +88,47 @@
         {
             get
             {
-                if (this.deviceRepository == null)
+                if (_deviceRepository == null)
                 {
-                    this.deviceRepository = new Repository<Device>(this.Context);
+                    _deviceRepository = new Repository<Device>(Context);
                 }
-                return this.deviceRepository;
+                return _deviceRepository;
             }
         }
 
-        public void Save()
+        public Repository<Section> SectionRepository
         {
-            this.Context.SaveChanges();
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
+            get
             {
-                if (disposing)
+                if (_sectionRepository == null)
                 {
-                    this.Context.Dispose();
+                    _sectionRepository = new Repository<Section>(Context);
                 }
+                return _sectionRepository;
             }
-            this.disposed = true;
         }
 
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public void Save()
+        {
+            Context.SaveChanges();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    Context.Dispose();
+                }
+            }
+            _disposed = true;
         }
     }
 }

@@ -2,39 +2,39 @@
 <Schema Namespace="ElijaModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
   <EntityContainer Name="ElijaEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Article" EntityType="ElijaModel.Article" />
-    <EntitySet Name="ArticleAsset" EntityType="ElijaModel.ArticleAsset" />
     <EntitySet Name="Authentication" EntityType="ElijaModel.Authentication" />
     <EntitySet Name="Device" EntityType="ElijaModel.Device" />
     <EntitySet Name="Image" EntityType="ElijaModel.Image" />
+    <EntitySet Name="ImageType" EntityType="ElijaModel.ImageType" />
     <EntitySet Name="Section" EntityType="ElijaModel.Section" />
     <EntitySet Name="User" EntityType="ElijaModel.User" />
     <EntitySet Name="UserDevice" EntityType="ElijaModel.UserDevice" />
     <EntitySet Name="Video" EntityType="ElijaModel.Video" />
-    <AssociationSet Name="FK__Article__Section__5EBF139D" Association="ElijaModel.FK__Article__Section__5EBF139D">
+    <AssociationSet Name="FK__Article__Section__6B24EA82" Association="ElijaModel.FK__Article__Section__6B24EA82">
       <End Role="Section" EntitySet="Section" />
       <End Role="Article" EntitySet="Article" />
     </AssociationSet>
-    <AssociationSet Name="FK__ArticleAs__Artic__693CA210" Association="ElijaModel.FK__ArticleAs__Artic__693CA210">
+    <AssociationSet Name="FK__Image__ArticleId__7E37BEF6" Association="ElijaModel.FK__Image__ArticleId__7E37BEF6">
       <End Role="Article" EntitySet="Article" />
-      <End Role="ArticleAsset" EntitySet="ArticleAsset" />
-    </AssociationSet>
-    <AssociationSet Name="FK__ArticleAs__Image__6A30C649" Association="ElijaModel.FK__ArticleAs__Image__6A30C649">
       <End Role="Image" EntitySet="Image" />
-      <End Role="ArticleAsset" EntitySet="ArticleAsset" />
     </AssociationSet>
-    <AssociationSet Name="FK__ArticleAs__Video__6B24EA82" Association="ElijaModel.FK__ArticleAs__Video__6B24EA82">
+    <AssociationSet Name="FK__Video__ArticleId__787EE5A0" Association="ElijaModel.FK__Video__ArticleId__787EE5A0">
+      <End Role="Article" EntitySet="Article" />
       <End Role="Video" EntitySet="Video" />
-      <End Role="ArticleAsset" EntitySet="ArticleAsset" />
     </AssociationSet>
-    <AssociationSet Name="FK__UserDevic__Authe__0A9D95DB" Association="ElijaModel.FK__UserDevic__Authe__0A9D95DB">
+    <AssociationSet Name="FK__UserDevic__Authe__49C3F6B7" Association="ElijaModel.FK__UserDevic__Authe__49C3F6B7">
       <End Role="Authentication" EntitySet="Authentication" />
       <End Role="UserDevice" EntitySet="UserDevice" />
     </AssociationSet>
-    <AssociationSet Name="FK__UserDevic__Devic__0B91BA14" Association="ElijaModel.FK__UserDevic__Devic__0B91BA14">
+    <AssociationSet Name="FK__UserDevic__Devic__4AB81AF0" Association="ElijaModel.FK__UserDevic__Devic__4AB81AF0">
       <End Role="Device" EntitySet="Device" />
       <End Role="UserDevice" EntitySet="UserDevice" />
     </AssociationSet>
-    <AssociationSet Name="FK__UserDevic__UserI__0C85DE4D" Association="ElijaModel.FK__UserDevic__UserI__0C85DE4D">
+    <AssociationSet Name="FK__Image__ImageType__7D439ABD" Association="ElijaModel.FK__Image__ImageType__7D439ABD">
+      <End Role="ImageType" EntitySet="ImageType" />
+      <End Role="Image" EntitySet="Image" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserDevic__UserI__4BAC3F29" Association="ElijaModel.FK__UserDevic__UserI__4BAC3F29">
       <End Role="User" EntitySet="User" />
       <End Role="UserDevice" EntitySet="UserDevice" />
     </AssociationSet>
@@ -43,29 +43,16 @@
     <Key>
       <PropertyRef Name="ArticleId" />
     </Key>
-    <Property Name="ArticleId" Type="Int32" Nullable="false" />
+    <Property Name="ArticleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="SectionId" Type="Int32" Nullable="false" />
     <Property Name="Title" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="Description" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
-    <Property Name="Thumbnail" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="Section" Relationship="ElijaModel.FK__Article__Section__5EBF139D" FromRole="Article" ToRole="Section" />
-    <NavigationProperty Name="ArticleAsset" Relationship="ElijaModel.FK__ArticleAs__Artic__693CA210" FromRole="Article" ToRole="ArticleAsset" />
-  </EntityType>
-  <EntityType Name="ArticleAsset">
-    <Key>
-      <PropertyRef Name="ArticleAssetId" />
-    </Key>
-    <Property Name="ArticleAssetId" Type="Int32" Nullable="false" />
-    <Property Name="ArticleId" Type="Int32" />
-    <Property Name="ImageId" Type="Int32" />
-    <Property Name="VideoId" Type="Int32" />
-    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="Article" Relationship="ElijaModel.FK__ArticleAs__Artic__693CA210" FromRole="ArticleAsset" ToRole="Article" />
-    <NavigationProperty Name="Image" Relationship="ElijaModel.FK__ArticleAs__Image__6A30C649" FromRole="ArticleAsset" ToRole="Image" />
-    <NavigationProperty Name="Video" Relationship="ElijaModel.FK__ArticleAs__Video__6B24EA82" FromRole="ArticleAsset" ToRole="Video" />
+    <NavigationProperty Name="Section" Relationship="ElijaModel.FK__Article__Section__6B24EA82" FromRole="Article" ToRole="Section" />
+    <NavigationProperty Name="Image" Relationship="ElijaModel.FK__Image__ArticleId__7E37BEF6" FromRole="Article" ToRole="Image" />
+    <NavigationProperty Name="Video" Relationship="ElijaModel.FK__Video__ArticleId__787EE5A0" FromRole="Article" ToRole="Video" />
   </EntityType>
   <EntityType Name="Authentication">
     <Key>
@@ -74,7 +61,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Token" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
     <Property Name="Expiration" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="UserDevice" Relationship="ElijaModel.FK__UserDevic__Authe__0A9D95DB" FromRole="Authentication" ToRole="UserDevice" />
+    <NavigationProperty Name="UserDevice" Relationship="ElijaModel.FK__UserDevic__Authe__49C3F6B7" FromRole="Authentication" ToRole="UserDevice" />
   </EntityType>
   <EntityType Name="Device">
     <Key>
@@ -95,27 +82,38 @@
     <Property Name="ReleaseVersion" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
     <Property Name="IsPhone" Type="Boolean" Nullable="false" />
     <Property Name="RegistrationDate" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="UserDevice" Relationship="ElijaModel.FK__UserDevic__Devic__0B91BA14" FromRole="Device" ToRole="UserDevice" />
+    <NavigationProperty Name="UserDevice" Relationship="ElijaModel.FK__UserDevic__Devic__4AB81AF0" FromRole="Device" ToRole="UserDevice" />
   </EntityType>
   <EntityType Name="Image">
     <Key>
       <PropertyRef Name="ImageId" />
     </Key>
-    <Property Name="ImageId" Type="Int32" Nullable="false" />
-    <Property Name="Url" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="ImageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Url" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="Width" Type="Int32" Nullable="false" />
     <Property Name="Height" Type="Int32" Nullable="false" />
     <Property Name="Size" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="ArticleAsset" Relationship="ElijaModel.FK__ArticleAs__Image__6A30C649" FromRole="Image" ToRole="ArticleAsset" />
+    <Property Name="ImageTypeId" Type="Int32" Nullable="false" />
+    <Property Name="ArticleId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Article" Relationship="ElijaModel.FK__Image__ArticleId__7E37BEF6" FromRole="Image" ToRole="Article" />
+    <NavigationProperty Name="ImageType" Relationship="ElijaModel.FK__Image__ImageType__7D439ABD" FromRole="Image" ToRole="ImageType" />
+  </EntityType>
+  <EntityType Name="ImageType">
+    <Key>
+      <PropertyRef Name="ImageTypeId" />
+    </Key>
+    <Property Name="ImageTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Image" Relationship="ElijaModel.FK__Image__ImageType__7D439ABD" FromRole="ImageType" ToRole="Image" />
   </EntityType>
   <EntityType Name="Section">
     <Key>
       <PropertyRef Name="SectionId" />
     </Key>
-    <Property Name="SectionId" Type="Int32" Nullable="false" />
+    <Property Name="SectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
     <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="Article" Relationship="ElijaModel.FK__Article__Section__5EBF139D" FromRole="Section" ToRole="Article" />
+    <NavigationProperty Name="Article" Relationship="ElijaModel.FK__Article__Section__6B24EA82" FromRole="Section" ToRole="Article" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -136,7 +134,7 @@
     <Property Name="City" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
     <Property Name="Address" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
     <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="UserDevice" Relationship="ElijaModel.FK__UserDevic__UserI__0C85DE4D" FromRole="User" ToRole="UserDevice" />
+    <NavigationProperty Name="UserDevice" Relationship="ElijaModel.FK__UserDevic__UserI__4BAC3F29" FromRole="User" ToRole="UserDevice" />
   </EntityType>
   <EntityType Name="UserDevice">
     <Key>
@@ -148,19 +146,20 @@
     <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="LastActivityDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="AuthenticationId" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Authentication" Relationship="ElijaModel.FK__UserDevic__Authe__0A9D95DB" FromRole="UserDevice" ToRole="Authentication" />
-    <NavigationProperty Name="Device" Relationship="ElijaModel.FK__UserDevic__Devic__0B91BA14" FromRole="UserDevice" ToRole="Device" />
-    <NavigationProperty Name="User" Relationship="ElijaModel.FK__UserDevic__UserI__0C85DE4D" FromRole="UserDevice" ToRole="User" />
+    <NavigationProperty Name="Authentication" Relationship="ElijaModel.FK__UserDevic__Authe__49C3F6B7" FromRole="UserDevice" ToRole="Authentication" />
+    <NavigationProperty Name="Device" Relationship="ElijaModel.FK__UserDevic__Devic__4AB81AF0" FromRole="UserDevice" ToRole="Device" />
+    <NavigationProperty Name="User" Relationship="ElijaModel.FK__UserDevic__UserI__4BAC3F29" FromRole="UserDevice" ToRole="User" />
   </EntityType>
   <EntityType Name="Video">
     <Key>
       <PropertyRef Name="VideoId" />
     </Key>
-    <Property Name="VideoId" Type="Int32" Nullable="false" />
+    <Property Name="VideoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Url" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-    <NavigationProperty Name="ArticleAsset" Relationship="ElijaModel.FK__ArticleAs__Video__6B24EA82" FromRole="Video" ToRole="ArticleAsset" />
+    <Property Name="ArticleId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Article" Relationship="ElijaModel.FK__Video__ArticleId__787EE5A0" FromRole="Video" ToRole="Article" />
   </EntityType>
-  <Association Name="FK__Article__Section__5EBF139D">
+  <Association Name="FK__Article__Section__6B24EA82">
     <End Role="Section" Type="ElijaModel.Section" Multiplicity="1" />
     <End Role="Article" Type="ElijaModel.Article" Multiplicity="*" />
     <ReferentialConstraint>
@@ -172,43 +171,31 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ArticleAs__Artic__693CA210">
-    <End Role="Article" Type="ElijaModel.Article" Multiplicity="0..1" />
-    <End Role="ArticleAsset" Type="ElijaModel.ArticleAsset" Multiplicity="*" />
+  <Association Name="FK__Image__ArticleId__7E37BEF6">
+    <End Role="Article" Type="ElijaModel.Article" Multiplicity="1" />
+    <End Role="Image" Type="ElijaModel.Image" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Article">
         <PropertyRef Name="ArticleId" />
       </Principal>
-      <Dependent Role="ArticleAsset">
+      <Dependent Role="Image">
         <PropertyRef Name="ArticleId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ArticleAs__Image__6A30C649">
-    <End Role="Image" Type="ElijaModel.Image" Multiplicity="0..1" />
-    <End Role="ArticleAsset" Type="ElijaModel.ArticleAsset" Multiplicity="*" />
+  <Association Name="FK__Video__ArticleId__787EE5A0">
+    <End Role="Article" Type="ElijaModel.Article" Multiplicity="1" />
+    <End Role="Video" Type="ElijaModel.Video" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Image">
-        <PropertyRef Name="ImageId" />
+      <Principal Role="Article">
+        <PropertyRef Name="ArticleId" />
       </Principal>
-      <Dependent Role="ArticleAsset">
-        <PropertyRef Name="ImageId" />
+      <Dependent Role="Video">
+        <PropertyRef Name="ArticleId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ArticleAs__Video__6B24EA82">
-    <End Role="Video" Type="ElijaModel.Video" Multiplicity="0..1" />
-    <End Role="ArticleAsset" Type="ElijaModel.ArticleAsset" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Video">
-        <PropertyRef Name="VideoId" />
-      </Principal>
-      <Dependent Role="ArticleAsset">
-        <PropertyRef Name="VideoId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__UserDevic__Authe__0A9D95DB">
+  <Association Name="FK__UserDevic__Authe__49C3F6B7">
     <End Role="Authentication" Type="ElijaModel.Authentication" Multiplicity="1" />
     <End Role="UserDevice" Type="ElijaModel.UserDevice" Multiplicity="*" />
     <ReferentialConstraint>
@@ -220,7 +207,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__UserDevic__Devic__0B91BA14">
+  <Association Name="FK__UserDevic__Devic__4AB81AF0">
     <End Role="Device" Type="ElijaModel.Device" Multiplicity="1" />
     <End Role="UserDevice" Type="ElijaModel.UserDevice" Multiplicity="*" />
     <ReferentialConstraint>
@@ -232,7 +219,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__UserDevic__UserI__0C85DE4D">
+  <Association Name="FK__Image__ImageType__7D439ABD">
+    <End Role="ImageType" Type="ElijaModel.ImageType" Multiplicity="1" />
+    <End Role="Image" Type="ElijaModel.Image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ImageType">
+        <PropertyRef Name="ImageTypeId" />
+      </Principal>
+      <Dependent Role="Image">
+        <PropertyRef Name="ImageTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserDevic__UserI__4BAC3F29">
     <End Role="User" Type="ElijaModel.User" Multiplicity="1" />
     <End Role="UserDevice" Type="ElijaModel.UserDevice" Multiplicity="*" />
     <ReferentialConstraint>

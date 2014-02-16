@@ -1,11 +1,11 @@
-﻿namespace FreakyByte.Elija.Entities.DataContracts
-{
-    using System;
+﻿using System;
 
+namespace FreakyByte.Elija.Entities.DataContracts
+{
     public class DeviceModel
     {
         #region Public Properties
-        
+
         public int DeviceId { get; set; }
 
         public string AndroidId { get; set; }

@@ -4,23 +4,23 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="486b285fc31c40a59c622e7ac8c27b7d" Name="Diagram1">
-        <EntityTypeShape EntityType="ElijaModel.Article" Width="1.5" PointX="5" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElijaModel.ArticleAsset" Width="1.5" PointX="7.25" PointY="5.125" IsExpanded="true" />
+      <Diagram DiagramId="e5303537b1c44b60b88abfdcd8f7d81e" Name="Diagrama1">
+        <EntityTypeShape EntityType="ElijaModel.Article" Width="1.5" PointX="5" PointY="6.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ElijaModel.Authentication" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ElijaModel.Device" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElijaModel.Image" Width="1.5" PointX="5" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElijaModel.Section" Width="1.5" PointX="2.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ElijaModel.Image" Width="1.5" PointX="7.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ElijaModel.ImageType" Width="1.5" PointX="5" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ElijaModel.Section" Width="1.5" PointX="2.75" PointY="6.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ElijaModel.User" Width="1.5" PointX="0.75" PointY="12" IsExpanded="true" />
         <EntityTypeShape EntityType="ElijaModel.UserDevice" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElijaModel.Video" Width="1.5" PointX="5" PointY="12.125" IsExpanded="true" />
-        <AssociationConnector Association="ElijaModel.FK__Article__Section__5EBF139D" ManuallyRouted="false" />
-        <AssociationConnector Association="ElijaModel.FK__ArticleAs__Artic__693CA210" ManuallyRouted="false" />
-        <AssociationConnector Association="ElijaModel.FK__ArticleAs__Image__6A30C649" ManuallyRouted="false" />
-        <AssociationConnector Association="ElijaModel.FK__ArticleAs__Video__6B24EA82" ManuallyRouted="false" />
-        <AssociationConnector Association="ElijaModel.FK__UserDevic__Authe__0A9D95DB" ManuallyRouted="false" />
-        <AssociationConnector Association="ElijaModel.FK__UserDevic__Devic__0B91BA14" ManuallyRouted="false" />
-        <AssociationConnector Association="ElijaModel.FK__UserDevic__UserI__0C85DE4D" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ElijaModel.Video" Width="1.5" PointX="7.25" PointY="10.375" IsExpanded="true" />
+        <AssociationConnector Association="ElijaModel.FK__Article__Section__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="ElijaModel.FK__Image__ArticleId__7E37BEF6" ManuallyRouted="false" />
+        <AssociationConnector Association="ElijaModel.FK__Video__ArticleId__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="ElijaModel.FK__UserDevic__Authe__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="ElijaModel.FK__UserDevic__Devic__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="ElijaModel.FK__Image__ImageType__7D439ABD" ManuallyRouted="false" />
+        <AssociationConnector Association="ElijaModel.FK__UserDevic__UserI__4BAC3F29" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

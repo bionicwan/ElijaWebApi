@@ -1,10 +1,9 @@
-﻿namespace FreakyByte.Elija.DataAccess.Repositories.Implementations
+﻿using System;
+using FreakyByte.Elija.DataAccess.Model;
+using FreakyByte.Elija.DataAccess.Repositories.Interfaces;
+
+namespace FreakyByte.Elija.DataAccess.Repositories.Implementations
 {
-    using System;
-
-    using FreakyByte.Elija.DataAccess.Model;
-    using FreakyByte.Elija.DataAccess.Repositories.Interfaces;
-
     public class DbContextFactory : IDbContextFactory
     {
         #region Fields
@@ -23,7 +22,7 @@
         /// </summary>
         public DbContextFactory()
         {
-            this.context = new ElijaEntities();
+            context = new ElijaEntities();
         }
 
         #endregion
@@ -36,9 +35,9 @@
         /// Finalize context.
         public void Dispose()
         {
-            if (this.context != null)
+            if (context != null)
             {
-                this.context.Dispose();
+                context.Dispose();
                 GC.SuppressFinalize(this);
             }
         }
@@ -51,7 +50,7 @@
         /// </returns>
         public ElijaEntities GetDbContext()
         {
-            return this.context;
+            return context;
         }
 
         #endregion

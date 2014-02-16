@@ -1,7 +1,7 @@
-﻿namespace FreakyByte.Elija.Entities.DataContracts
-{
-    using System;
+﻿using System;
 
+namespace FreakyByte.Elija.Entities.DataContracts
+{
     public class UserDeviceModel
     {
         #region Public Properties

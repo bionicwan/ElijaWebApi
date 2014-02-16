@@ -6,7 +6,7 @@ using FreakyByte.Elija.WebApi.Areas.HelpPage.Models;
 namespace FreakyByte.Elija.WebApi.Areas.HelpPage.Controllers
 {
     /// <summary>
-    /// The controller that will handle requests for the help page.
+    ///     The controller that will handle requests for the help page.
     /// </summary>
     public class HelpController : Controller
     {

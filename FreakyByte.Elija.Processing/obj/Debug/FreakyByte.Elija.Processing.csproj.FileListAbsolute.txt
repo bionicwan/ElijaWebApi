@@ -11,3 +11,16 @@ C:\Users\Juan Carlos\Documents\Visual Studio 2012\Projects\FreakyByte.Elija.WebA
 C:\Users\Juan Carlos\Documents\Visual Studio 2012\Projects\FreakyByte.Elija.WebApi\FreakyByte.Elija.Processing\obj\Debug\FreakyByte.Elija.Processing.csprojResolveAssemblyReference.cache
 C:\Users\Juan Carlos\Documents\Visual Studio 2012\Projects\FreakyByte.Elija.WebApi\FreakyByte.Elija.Processing\obj\Debug\FreakyByte.Elija.Processing.dll
 C:\Users\Juan Carlos\Documents\Visual Studio 2012\Projects\FreakyByte.Elija.WebApi\FreakyByte.Elija.Processing\obj\Debug\FreakyByte.Elija.Processing.pdb
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\bin\Debug\FreakyByte.Elija.Processing.dll
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\bin\Debug\FreakyByte.Elija.Processing.pdb
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\bin\Debug\FreakyByte.Elija.DataAccess.dll
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\bin\Debug\FreakyByte.Elija.Entities.dll
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\bin\Debug\ImageResizer.dll
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\bin\Debug\log4net.dll
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\bin\Debug\FreakyByte.Elija.DataAccess.pdb
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\bin\Debug\FreakyByte.Elija.Entities.pdb
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\bin\Debug\ImageResizer.xml
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\bin\Debug\log4net.xml
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\obj\Debug\FreakyByte.Elija.Processing.csprojResolveAssemblyReference.cache
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\obj\Debug\FreakyByte.Elija.Processing.dll
+C:\Users\Juan Carlos\Documents\GitHub\ElijaWebApi\FreakyByte.Elija.Processing\obj\Debug\FreakyByte.Elija.Processing.pdb

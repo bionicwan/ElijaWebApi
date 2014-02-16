@@ -1,7 +1,8 @@
-﻿namespace FreakyByte.Elija.Processing.Helpers
-{
-    using FreakyByte.Elija.DataAccess.Repositories.Implementations;
+﻿using FreakyByte.Elija.DataAccess.Model;
+using FreakyByte.Elija.DataAccess.Repositories.Implementations;
 
+namespace FreakyByte.Elija.Processing.Helpers
+{
     public class ValidationHelper
     {
         #region Fields
@@ -14,7 +15,7 @@
 
         public bool ValidateToken(string token)
         {
-            var user = this.unitOfWork.AuthenticationrRepository.FindFirstBy(e => e.Token == token);
+            Authentication user = unitOfWork.AuthenticationrRepository.FindFirstBy(e => e.Token == token);
 
             return user != null;
         }

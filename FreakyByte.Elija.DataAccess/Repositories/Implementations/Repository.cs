@@ -1,18 +1,26 @@
-﻿namespace FreakyByte.Elija.DataAccess.Repositories.Implementations
+﻿using System;
+using System.Data;
+using System.Data.Objects;
+using System.Linq;
+using System.Linq.Expressions;
+using FreakyByte.Elija.DataAccess.Model;
+using FreakyByte.Elija.DataAccess.Repositories.Interfaces;
+
+namespace FreakyByte.Elija.DataAccess.Repositories.Implementations
 {
-    using System;
-    using System.Data;
-    using System.Data.Objects;
-    using System.Linq;
-    using System.Linq.Expressions;
-
-    using FreakyByte.Elija.DataAccess.Model;
-    using FreakyByte.Elija.DataAccess.Repositories.Interfaces;
-
     public class Repository<T> : IRepository<T>
         where T : class
     {
         #region Constructors and Destructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Repository{T}" /> class.
+        /// </summary>
+        /// <param name="context"></param>
+        public Repository(ElijaEntities context)
+        {
+            Context = context;
+        }
 
         /// <summary>
         ///     Gets or sets the context.
@@ -21,22 +29,10 @@
         ///     The context.
         /// </value>
         public ElijaEntities Context { get; set; }
-        
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Repository{T}" /> class.
-        /// </summary>
-        /// <param name="context"></param>
-        public Repository(ElijaEntities context)
-        {
-            this.Context = context;
-        }
 
         #endregion
 
         #region Public Properties
-
-
-
 
         #endregion
 
@@ -50,7 +46,7 @@
         /// </param>
         public void Add(T entity)
         {
-            this.Context.CreateObjectSet<T>().AddObject(entity);
+            Context.CreateObjectSet<T>().AddObject(entity);
         }
 
         /// <summary>
@@ -61,7 +57,7 @@
         /// </returns>
         public int Count()
         {
-            return this.Context.CreateObjectSet<T>().Count<T>();
+            return Context.CreateObjectSet<T>().Count<T>();
         }
 
         /// <summary>
@@ -72,7 +68,7 @@
         /// </param>
         public void Delete(T entity)
         {
-            this.Context.CreateObjectSet<T>().DeleteObject(entity);
+            Context.CreateObjectSet<T>().DeleteObject(entity);
         }
 
         /// <summary>
@@ -80,9 +76,9 @@
         /// </summary>
         public void Dispose()
         {
-            if (this.Context != null)
+            if (Context != null)
             {
-                this.Context.Dispose();
+                Context.Dispose();
             }
         }
 
@@ -100,7 +96,7 @@
         /// </returns>
         public IQueryable<T> FindAllBy(Expression<Func<T, bool>> predicate, string[] include)
         {
-            ObjectSet<T> objset = this.Context.CreateObjectSet<T>();
+            ObjectSet<T> objset = Context.CreateObjectSet<T>();
             var query = objset as ObjectQuery<T>;
             if (include != null)
             {
@@ -121,7 +117,7 @@
         /// </returns>
         public T FindFirstBy(Expression<Func<T, bool>> predicate)
         {
-            return this.Context.CreateObjectSet<T>().FirstOrDefault(predicate);
+            return Context.CreateObjectSet<T>().FirstOrDefault(predicate);
         }
 
         /// <summary>
@@ -132,28 +128,7 @@
         /// </returns>
         public IQueryable<T> GetAll()
         {
-            return this.Context.CreateObjectSet<T>().AsQueryable<T>();
-        }
-
-        /// <summary>
-        ///     The get all.
-        /// </summary>
-        /// <param name="include">
-        ///     The include.
-        /// </param>
-        /// <returns>
-        ///     The <see cref="IQueryable" />.
-        /// </returns>
-        public IQueryable<T> GetAll(string[] include)
-        {
-            ObjectSet<T> objset = this.Context.CreateObjectSet<T>();
-            var query = objset as ObjectQuery<T>;
-            if (include != null)
-            {
-                query = include.Aggregate(query, (current, navprop) => current.Include(navprop));
-            }
-
-            return query.AsQueryable();
+            return Context.CreateObjectSet<T>().AsQueryable<T>();
         }
 
         /// <summary>
@@ -166,7 +141,7 @@
         {
             try
             {
-                return this.Context.CreateObjectSet<T>().ToList().Last();
+                return Context.CreateObjectSet<T>().ToList().Last();
             }
             catch (Exception)
             {
@@ -182,7 +157,7 @@
         /// </param>
         public void Refresh(T entity)
         {
-            this.Context.Refresh(RefreshMode.StoreWins, entity);
+            Context.Refresh(RefreshMode.StoreWins, entity);
         }
 
         /// <summary>
@@ -193,7 +168,28 @@
         /// </param>
         public void Update(T entity)
         {
-            this.Context.ObjectStateManager.ChangeObjectState(entity, EntityState.Modified);
+            Context.ObjectStateManager.ChangeObjectState(entity, EntityState.Modified);
+        }
+
+        /// <summary>
+        ///     The get all.
+        /// </summary>
+        /// <param name="include">
+        ///     The include.
+        /// </param>
+        /// <returns>
+        ///     The <see cref="IQueryable" />.
+        /// </returns>
+        public IQueryable<T> GetAll(string[] include)
+        {
+            ObjectSet<T> objset = Context.CreateObjectSet<T>();
+            var query = objset as ObjectQuery<T>;
+            if (include != null)
+            {
+                query = include.Aggregate(query, (current, navprop) => current.Include(navprop));
+            }
+
+            return query.AsQueryable();
         }
 
         #endregion

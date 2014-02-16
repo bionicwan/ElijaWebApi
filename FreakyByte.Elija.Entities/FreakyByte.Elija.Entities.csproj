@@ -41,9 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContracts\ArticleImageModel.cs" />
+    <Compile Include="DataContracts\ImageModel.cs" />
+    <Compile Include="DataContracts\ArticleModel.cs" />
     <Compile Include="DataContracts\DeviceModel.cs" />
+    <Compile Include="DataContracts\ImageTypeEnum.cs" />
     <Compile Include="DataContracts\ModelFactory.cs" />
     <Compile Include="DataContracts\Result.cs" />
+    <Compile Include="DataContracts\SectionModel.cs" />
     <Compile Include="DataContracts\UserDeviceModel.cs" />
     <Compile Include="DataContracts\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

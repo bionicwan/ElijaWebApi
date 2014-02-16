@@ -11,18 +11,6 @@
           <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
           <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ArticleAsset">
-      <EntityTypeMapping TypeName="ElijaModel.ArticleAsset">
-        <MappingFragment StoreEntitySet="ArticleAsset">
-          <ScalarProperty Name="ArticleAssetId" ColumnName="ArticleAssetId" />
-          <ScalarProperty Name="ArticleId" ColumnName="ArticleId" />
-          <ScalarProperty Name="ImageId" ColumnName="ImageId" />
-          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
-          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -64,6 +52,16 @@
           <ScalarProperty Name="Width" ColumnName="Width" />
           <ScalarProperty Name="Height" ColumnName="Height" />
           <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="ImageTypeId" ColumnName="ImageTypeId" />
+          <ScalarProperty Name="ArticleId" ColumnName="ArticleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ImageType">
+      <EntityTypeMapping TypeName="ElijaModel.ImageType">
+        <MappingFragment StoreEntitySet="ImageType">
+          <ScalarProperty Name="ImageTypeId" ColumnName="ImageTypeId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -114,6 +112,7 @@
         <MappingFragment StoreEntitySet="Video">
           <ScalarProperty Name="VideoId" ColumnName="VideoId" />
           <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="ArticleId" ColumnName="ArticleId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

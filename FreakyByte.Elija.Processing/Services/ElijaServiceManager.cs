@@ -1,28 +1,27 @@
-﻿namespace FreakyByte.Elija.Processing.Services
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FreakyByte.Elija.DataAccess.Model;
+using FreakyByte.Elija.DataAccess.Repositories.Implementations;
+using FreakyByte.Elija.Entities.DataContracts;
+using FreakyByte.Elija.Processing.Helpers;
+using log4net;
+
+namespace FreakyByte.Elija.Processing.Services
 {
-    using System;
-
-    using FreakyByte.Elija.DataAccess.Model;
-    using FreakyByte.Elija.DataAccess.Repositories.Implementations;
-    using FreakyByte.Elija.Entities.DataContracts;
-    using FreakyByte.Elija.Processing.Helpers;
-
-    using log4net;
-
     public class ElijaServiceManager
     {
         #region Fields
 
-        private readonly UnitOfWork unitOfWork = new UnitOfWork();
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(ElijaServiceManager));
+        private static readonly ILog Logger = LogManager.GetLogger(typeof (ElijaServiceManager));
+        private static readonly UnitOfWork unitOfWork = new UnitOfWork();
 
         #endregion
-
 
         #region Public Methods and Operators
 
         /// <summary>
-        /// Handles the process of resizing an image.
+        ///     Handles the process of resizing an image.
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
@@ -31,7 +30,7 @@
             var result = new Result<string>();
             try
             {
-                var image = ImageProcessingHelper.ResizeImage(url);
+                string image = ImageProcessingHelper.ResizeImage(url);
                 result.Data = image;
                 result.Success = true;
             }
@@ -45,57 +44,56 @@
         }
 
         /// <summary>
-        /// Finds a specific user by their Facebook id
+        ///     Finds a specific user by their Facebook id
         /// </summary>
         /// <param name="facebookId">User's Facebook id</param>
         /// <returns></returns>
-        private User GetUserByFacebookId(int facebookId)
+        private static User GetUserByFacebookId(int facebookId)
         {
-            var user = this.unitOfWork.UserRepository.FindFirstBy(e => e.FacebookId == facebookId);
+            User user = unitOfWork.UserRepository.FindFirstBy(e => e.FacebookId == facebookId);
             return user;
         }
 
         /// <summary>
-        /// Searches for a device that belongs to a specific user.
+        ///     Searches for a device that belongs to a specific user.
         /// </summary>
         /// <param name="userId">The registered user id.</param>
         /// <param name="androidId">The android id of this device.</param>
         /// <returns></returns>
-        private UserDevice GetDeviceByAndroidId(int userId, string androidId)
+        private static UserDevice GetDeviceByAndroidId(int userId, string androidId)
         {
-            var userDevice =
-                this.unitOfWork.UserDeviceRepository.FindFirstBy(e => e.UserId == userId && e.Device.AndroidId == androidId);
+            UserDevice userDevice =
+                unitOfWork.UserDeviceRepository.FindFirstBy(e => e.UserId == userId && e.Device.AndroidId == androidId);
 
             return userDevice;
         }
 
         /// <summary>
-        /// Sets a new token and expiration date for a new user.
+        ///     Sets a new token and expiration date for a new user.
         /// </summary>
         /// <param name="userDevice"></param>
         /// <returns></returns>
         private static Authentication CreateAuthenticationInfo()
         {
-            var token = Guid.NewGuid().ToString();
-            var expirationDate = DateTime.Now.AddDays(7);
+            string token = Guid.NewGuid().ToString();
+            DateTime expirationDate = DateTime.Now.AddDays(7);
 
-            var authentication = new Authentication() { Token = token, Expiration = expirationDate };
+            var authentication = new Authentication {Token = token, Expiration = expirationDate};
             return authentication;
         }
 
 
-
         /// <summary>
-        /// Registers a new user into the platform. If it's a returning user, it logs them in and returns the user token.
+        ///     Registers a new user into the platform. If it's a returning user, it logs them in and returns the user token.
         /// </summary>
         /// <param name="userDevice">
-        /// Contains the necessary information about the user and their device to register them
-        /// into the platform.
+        ///     Contains the necessary information about the user and their device to register them
+        ///     into the platform.
         /// </param>
         /// <returns>If the process is successful, it returns the user's token inside the Content field.</returns>
         public Result<string> RegisterUser(UserDeviceModel userDevice)
         {
-            var result = new Result<string> { Success = true };
+            var result = new Result<string> {Success = true};
 
             if (userDevice == null)
             {
@@ -107,7 +105,7 @@
             try
             {
                 // Check whether the user is registered in the Data Base.
-                var userDb = this.GetUserByFacebookId((int)userDevice.FacebookId);
+                User userDb = GetUserByFacebookId((int) userDevice.FacebookId);
                 if (userDb == null)
                 {
                     result.Data = InsertNewUser(userDevice);
@@ -115,7 +113,7 @@
 
                 // If it's a registered user who made the request but from a non registered device, create a new record for
                 // the new device.
-                var device = this.GetDeviceByAndroidId(userDb.UserId, userDevice.AndroidId);
+                UserDevice device = GetDeviceByAndroidId(userDb.UserId, userDevice.AndroidId);
                 if (device == null)
                 {
                     result.Data = InsertNewDevice(userDb, userDevice);
@@ -140,12 +138,12 @@
         #region Methods
 
         /// <summary>
-        /// If the registration request comes from a registered user but with a new device, it registers it into the platform.
+        ///     If the registration request comes from a registered user but with a new device, it registers it into the platform.
         /// </summary>
         /// <param name="userDb">The user's information that is already registered.</param>
         /// <param name="userDevice">Information about the device from which the request was made.</param>
         /// <returns>If the process is successful, it return the user's token inside the Content field.</returns>
-        private string InsertNewDevice(User userDb, UserDeviceModel userDevice)
+        private static string InsertNewDevice(User userDb, UserDeviceModel userDevice)
         {
             var device = new Device
             {
@@ -162,7 +160,7 @@
                 OsVersion = userDevice.OsVersion,
                 Product = userDevice.Product,
                 ReleaseVersion = userDevice.ReleaseVersion,
-                RegistrationDate = userDevice.DeviceRegistrationDate 
+                RegistrationDate = userDevice.DeviceRegistrationDate
             };
 
             var userDeviceDb = new UserDevice
@@ -173,73 +171,182 @@
                 LastActivityDate = DateTime.Now
             };
 
-            var authentication = CreateAuthenticationInfo();
+            Authentication authentication = CreateAuthenticationInfo();
 
             userDeviceDb.Authentication = authentication;
 
-            this.unitOfWork.DeviceRepository.Add(device);
-            this.unitOfWork.UserDeviceRepository.Add(userDeviceDb);
-            this.unitOfWork.Save();
+            unitOfWork.DeviceRepository.Add(device);
+            unitOfWork.UserDeviceRepository.Add(userDeviceDb);
+            unitOfWork.Save();
 
             return authentication.Token;
         }
 
         /// <summary>
-        /// Registers a new user into the platform.
+        ///     Registers a new user into the platform.
         /// </summary>
         /// <param name="user">The new user's information.</param>
         /// <returns>If the process is successful, it return the user's token inside the Content field.</returns>
-        private string InsertNewUser(UserDeviceModel user)
+        private static string InsertNewUser(UserDeviceModel user)
         {
             var userDevice = new UserDevice
-                                 {
-                                     User =
-                                         new User
-                                             {
-                                                 FacebookId = user.FacebookId,
-                                                 FirstName = user.FirstName,
-                                                 LastName = user.LastName,
-                                                 Age = user.Age,
-                                                 City = user.City,
-                                                 Email = user.Email,
-                                                 Gender = user.Gender,
-                                                 FacebookLink = user.FacebookLink,
-                                                 Address = user.Address,
-                                                 Birthday = user.Birthday,
-                                                 RegistrationDate = user.UserRegistrationDate,
-                                             },
-                                     Device =
-                                         new Device
-                                             {
-                                                 IMEI = user.Imei,
-                                                 AndroidId = user.AndroidId,
-                                                 Brand = user.Brand,
-                                                 CodeVersion = user.CodeVersion,
-                                                 Device1 = user.Device,
-                                                 Display = user.Display,
-                                                 IsPhone = user.IsPhone,
-                                                 Manufacturer = user.Manufacturer,
-                                                 Model = user.Model,
-                                                 Operator = user.Operator,
-                                                 OsVersion = user.OsVersion,
-                                                 Product = user.Product,
-                                                 ReleaseVersion = user.ReleaseVersion,
-                                                 RegistrationDate = user.DeviceRegistrationDate
-                                             },
-                                     CreatedAt = DateTime.Now,
-                                     LastActivityDate = DateTime.Now
-                                 };
+            {
+                User =
+                    new User
+                    {
+                        FacebookId = user.FacebookId,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Age = user.Age,
+                        City = user.City,
+                        Email = user.Email,
+                        Gender = user.Gender,
+                        FacebookLink = user.FacebookLink,
+                        Address = user.Address,
+                        Birthday = user.Birthday,
+                        RegistrationDate = user.UserRegistrationDate,
+                    },
+                Device =
+                    new Device
+                    {
+                        IMEI = user.Imei,
+                        AndroidId = user.AndroidId,
+                        Brand = user.Brand,
+                        CodeVersion = user.CodeVersion,
+                        Device1 = user.Device,
+                        Display = user.Display,
+                        IsPhone = user.IsPhone,
+                        Manufacturer = user.Manufacturer,
+                        Model = user.Model,
+                        Operator = user.Operator,
+                        OsVersion = user.OsVersion,
+                        Product = user.Product,
+                        ReleaseVersion = user.ReleaseVersion,
+                        RegistrationDate = user.DeviceRegistrationDate
+                    },
+                CreatedAt = DateTime.Now,
+                LastActivityDate = DateTime.Now
+            };
 
-            var authentication = CreateAuthenticationInfo();
+            Authentication authentication = CreateAuthenticationInfo();
 
             userDevice.Authentication = authentication;
 
-            this.unitOfWork.UserDeviceRepository.Add(userDevice);
-            this.unitOfWork.Save();
+            unitOfWork.UserDeviceRepository.Add(userDevice);
+            unitOfWork.Save();
 
             return authentication.Token;
         }
 
         #endregion
+
+        public static Result<SectionModel> GetSectionArticles(int sectionId, int screenDensity, bool isWifi)
+        {
+            var result = new Result<SectionModel> {Success = true};
+            List<ArticleModel> articleList;
+
+            Section section = unitOfWork.SectionRepository.FindFirstBy(e => e.SectionId == sectionId);
+
+            if (isWifi)
+            {
+                articleList = GetHighQualityArticle(section, screenDensity);
+            }
+            else
+            {
+                articleList = GetLowQualityArticle(section, screenDensity);
+            }
+
+            SectionModel sectionModel = ModelFactory.CreateSectionModel(section);
+            sectionModel.Article = articleList;
+
+            result.Data = sectionModel;
+
+            return result;
+        }
+
+        private static List<ArticleModel> GetHighQualityArticle(Section section, int screenDensity)
+        {
+            var articleList = new List<ArticleModel>();
+            foreach (Article item in section.Article)
+            {
+                Image thumbnail = (from thumb in item.Image
+                    where thumb.ArticleId == item.ArticleId && thumb.ImageTypeId == (int) ImageTypeEnum.Thumbnail
+                    select thumb).FirstOrDefault();
+
+                Image normalImage;
+
+                switch (screenDensity)
+                {
+                    case 1:
+                    case 2:
+                        normalImage = (from image in item.Image
+                            where image.ArticleId == item.ArticleId && image.ImageTypeId == (int) ImageTypeEnum.Small
+                            select image).FirstOrDefault();
+                        break;
+                    case 3:
+                    case 4:
+                        normalImage = (from image in item.Image
+                            where image.ArticleId == item.ArticleId && image.ImageTypeId == (int) ImageTypeEnum.Medium
+                            select image).FirstOrDefault();
+                        break;
+                    default:
+                        normalImage = (from image in item.Image
+                            where image.ArticleId == item.ArticleId && image.ImageTypeId == (int) ImageTypeEnum.Large
+                            select image).FirstOrDefault();
+                        break;
+                }
+
+                ArticleModel articleModel = ModelFactory.CreateArticleMOdel(item, thumbnail, normalImage);
+                articleList.Add(articleModel);
+            }
+
+            return articleList;
+        }
+
+        private static List<ArticleModel> GetLowQualityArticle(Section section, int screenDensity)
+        {
+            var articleList = new List<ArticleModel>();
+            foreach (Article item in section.Article)
+            {
+                Image thumbnail = (from thumb in item.Image
+                    where
+                        thumb.ArticleId == item.ArticleId && thumb.ImageTypeId == (int) ImageTypeEnum.Thumbnail
+                    select thumb).FirstOrDefault();
+
+                Image normalImage;
+
+                switch (screenDensity)
+                {
+                    case 1:
+                    case 2:
+                        normalImage = (from image in item.Image
+                            where
+                                image.ArticleId == item.ArticleId &&
+                                image.ImageTypeId == (int) ImageTypeEnum.SmallLowQuality
+                            select image).FirstOrDefault();
+                        break;
+                    case 3:
+                    case 4:
+                        normalImage = (from image in item.Image
+                            where
+                                image.ArticleId == item.ArticleId &&
+                                image.ImageTypeId == (int) ImageTypeEnum.MediumLowQuality
+                            select image).FirstOrDefault();
+                        break;
+                    default:
+                        normalImage = (from image in item.Image
+                            where
+                                image.ArticleId == item.ArticleId &&
+                                image.ImageTypeId == (int) ImageTypeEnum.LargeLowQuality
+                            select image).FirstOrDefault();
+                        break;
+                }
+
+                ArticleModel articleModel = ModelFactory.CreateArticleMOdel(item, thumbnail, normalImage);
+                articleList.Add(articleModel);
+            }
+
+            return articleList;
+        }
     }
 }

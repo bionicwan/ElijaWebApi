@@ -1,18 +1,16 @@
-﻿namespace FreakyByte.Elija.Entities.DataContracts
+﻿using System;
+
+namespace FreakyByte.Elija.Entities.DataContracts
 {
-    using System.Runtime.Serialization;
-
     /// <summary>
-    /// Data Contract used to carry any information from the server to the client in response to a service request.
+    ///     Data Contract used to carry any information from the server to the client in response to a service request.
     /// </summary>
-
-    [DataContract]
+    [Serializable]
     public class Result : IResult
     {
         public bool Success { get; set; }
         public string Message { get; set; }
     }
-
 
 
     public interface IResult
@@ -22,10 +20,9 @@
     }
 
 
-    [DataContract]
+    [Serializable]
     public class Result<T> : Result
     {
         public T Data { get; set; }
     }
-
 }
