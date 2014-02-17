@@ -14,7 +14,8 @@ namespace FreakyByte.Elija.Processing.Services
         #region Fields
 
         private static readonly ILog Logger = LogManager.GetLogger(typeof (ElijaServiceManager));
-        private static readonly UnitOfWork unitOfWork = new UnitOfWork();
+        private static readonly UnitOfWork UnitOfWork = new UnitOfWork();
+        private const int PAGE_SIZE = 2;
 
         #endregion
 
@@ -30,7 +31,7 @@ namespace FreakyByte.Elija.Processing.Services
             var result = new Result<string>();
             try
             {
-                string image = ImageProcessingHelper.ResizeImage(url);
+                var image = ImageProcessingHelper.ResizeImage(url);
                 result.Data = image;
                 result.Success = true;
             }
@@ -50,7 +51,7 @@ namespace FreakyByte.Elija.Processing.Services
         /// <returns></returns>
         private static User GetUserByFacebookId(int facebookId)
         {
-            User user = unitOfWork.UserRepository.FindFirstBy(e => e.FacebookId == facebookId);
+            var user = UnitOfWork.UserRepository.FindFirstBy(e => e.FacebookId == facebookId);
             return user;
         }
 
@@ -62,8 +63,8 @@ namespace FreakyByte.Elija.Processing.Services
         /// <returns></returns>
         private static UserDevice GetDeviceByAndroidId(int userId, string androidId)
         {
-            UserDevice userDevice =
-                unitOfWork.UserDeviceRepository.FindFirstBy(e => e.UserId == userId && e.Device.AndroidId == androidId);
+            var userDevice =
+                UnitOfWork.UserDeviceRepository.FindFirstBy(e => e.UserId == userId && e.Device.AndroidId == androidId);
 
             return userDevice;
         }
@@ -75,8 +76,8 @@ namespace FreakyByte.Elija.Processing.Services
         /// <returns></returns>
         private static Authentication CreateAuthenticationInfo()
         {
-            string token = Guid.NewGuid().ToString();
-            DateTime expirationDate = DateTime.Now.AddDays(7);
+            var token = Guid.NewGuid().ToString();
+            var expirationDate = DateTime.Now.AddDays(7);
 
             var authentication = new Authentication {Token = token, Expiration = expirationDate};
             return authentication;
@@ -105,7 +106,7 @@ namespace FreakyByte.Elija.Processing.Services
             try
             {
                 // Check whether the user is registered in the Data Base.
-                User userDb = GetUserByFacebookId((int) userDevice.FacebookId);
+                var userDb = GetUserByFacebookId((int) userDevice.FacebookId);
                 if (userDb == null)
                 {
                     result.Data = InsertNewUser(userDevice);
@@ -113,7 +114,8 @@ namespace FreakyByte.Elija.Processing.Services
 
                 // If it's a registered user who made the request but from a non registered device, create a new record for
                 // the new device.
-                UserDevice device = GetDeviceByAndroidId(userDb.UserId, userDevice.AndroidId);
+                var device = GetDeviceByAndroidId(userDb.UserId, userDevice.AndroidId);
+
                 if (device == null)
                 {
                     result.Data = InsertNewDevice(userDb, userDevice);
@@ -171,13 +173,13 @@ namespace FreakyByte.Elija.Processing.Services
                 LastActivityDate = DateTime.Now
             };
 
-            Authentication authentication = CreateAuthenticationInfo();
+            var authentication = CreateAuthenticationInfo();
 
             userDeviceDb.Authentication = authentication;
 
-            unitOfWork.DeviceRepository.Add(device);
-            unitOfWork.UserDeviceRepository.Add(userDeviceDb);
-            unitOfWork.Save();
+            UnitOfWork.DeviceRepository.Add(device);
+            UnitOfWork.UserDeviceRepository.Add(userDeviceDb);
+            UnitOfWork.Save();
 
             return authentication.Token;
         }
@@ -228,35 +230,36 @@ namespace FreakyByte.Elija.Processing.Services
                 LastActivityDate = DateTime.Now
             };
 
-            Authentication authentication = CreateAuthenticationInfo();
+            var authentication = CreateAuthenticationInfo();
 
             userDevice.Authentication = authentication;
 
-            unitOfWork.UserDeviceRepository.Add(userDevice);
-            unitOfWork.Save();
+            UnitOfWork.UserDeviceRepository.Add(userDevice);
+            UnitOfWork.Save();
 
             return authentication.Token;
         }
 
         #endregion
 
-        public static Result<SectionModel> GetSectionArticles(int sectionId, int screenDensity, bool isWifi)
+        public static Result<SectionModel> GetSectionArticles(int sectionId, int page, int screenDensity, bool isWifi)
         {
             var result = new Result<SectionModel> {Success = true};
             List<ArticleModel> articleList;
 
-            Section section = unitOfWork.SectionRepository.FindFirstBy(e => e.SectionId == sectionId);
+            var section = UnitOfWork.SectionRepository.FindFirstBy(e => e.SectionId == sectionId);
+            var sectionArticles = section.Article.Skip(PAGE_SIZE*page).Take(PAGE_SIZE).ToList();
 
             if (isWifi)
             {
-                articleList = GetHighQualityArticle(section, screenDensity);
+                articleList = GetHighQualityArticle(sectionArticles, screenDensity);
             }
             else
             {
-                articleList = GetLowQualityArticle(section, screenDensity);
+                articleList = GetLowQualityArticle(sectionArticles, screenDensity);
             }
 
-            SectionModel sectionModel = ModelFactory.CreateSectionModel(section);
+            var sectionModel = ModelFactory.CreateSectionModel(section);
             sectionModel.Article = articleList;
 
             result.Data = sectionModel;
@@ -264,12 +267,12 @@ namespace FreakyByte.Elija.Processing.Services
             return result;
         }
 
-        private static List<ArticleModel> GetHighQualityArticle(Section section, int screenDensity)
+        private static List<ArticleModel> GetHighQualityArticle(IEnumerable<Article> articles , int screenDensity)
         {
             var articleList = new List<ArticleModel>();
-            foreach (Article item in section.Article)
+            foreach (var item in articles)
             {
-                Image thumbnail = (from thumb in item.Image
+                var thumbnail = (from thumb in item.Image
                     where thumb.ArticleId == item.ArticleId && thumb.ImageTypeId == (int) ImageTypeEnum.Thumbnail
                     select thumb).FirstOrDefault();
 
@@ -296,19 +299,19 @@ namespace FreakyByte.Elija.Processing.Services
                         break;
                 }
 
-                ArticleModel articleModel = ModelFactory.CreateArticleMOdel(item, thumbnail, normalImage);
+                var articleModel = ModelFactory.CreateArticleMOdel(item, thumbnail, normalImage);
                 articleList.Add(articleModel);
             }
 
             return articleList;
         }
 
-        private static List<ArticleModel> GetLowQualityArticle(Section section, int screenDensity)
+        private static List<ArticleModel> GetLowQualityArticle(IEnumerable<Article> articles, int screenDensity)
         {
             var articleList = new List<ArticleModel>();
-            foreach (Article item in section.Article)
+            foreach (var item in articles)
             {
-                Image thumbnail = (from thumb in item.Image
+                var thumbnail = (from thumb in item.Image
                     where
                         thumb.ArticleId == item.ArticleId && thumb.ImageTypeId == (int) ImageTypeEnum.Thumbnail
                     select thumb).FirstOrDefault();
@@ -342,7 +345,7 @@ namespace FreakyByte.Elija.Processing.Services
                         break;
                 }
 
-                ArticleModel articleModel = ModelFactory.CreateArticleMOdel(item, thumbnail, normalImage);
+                var articleModel = ModelFactory.CreateArticleMOdel(item, thumbnail, normalImage);
                 articleList.Add(articleModel);
             }
 
