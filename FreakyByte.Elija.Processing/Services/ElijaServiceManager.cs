@@ -15,7 +15,7 @@ namespace FreakyByte.Elija.Processing.Services
 
         private static readonly ILog Logger = LogManager.GetLogger(typeof (ElijaServiceManager));
         private static readonly UnitOfWork UnitOfWork = new UnitOfWork();
-        private const int PAGE_SIZE = 2;
+        private const int PAGE_SIZE = 3;
 
         #endregion
 
