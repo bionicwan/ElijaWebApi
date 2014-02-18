@@ -7,12 +7,11 @@ namespace FreakyByte.Elija.DataAccess.Repositories.Implementations
     {
         private readonly DbContextFactory _dbContextFactory = new DbContextFactory();
 
-        private Repository<Article> _articleRepository;
+        private Repository<Node> _nodeRepository;
         private Repository<Authentication> _authenticationRepository;
         private Repository<Device> _deviceRepository;
         private bool _disposed;
         private Repository<Image> _imageRepository;
-        private Repository<Section> _sectionRepository;
         private Repository<UserDevice> _userDeviceRepository;
         private Repository<User> _userRepository;
 
@@ -36,15 +35,15 @@ namespace FreakyByte.Elija.DataAccess.Repositories.Implementations
             }
         }
 
-        public Repository<Article> ArticleRepository
+        public Repository<Node> NodeRepository
         {
             get
             {
-                if (_articleRepository == null)
+                if (_nodeRepository == null)
                 {
-                    _articleRepository = new Repository<Article>(Context);
+                    _nodeRepository = new Repository<Node>(Context);
                 }
-                return _articleRepository;
+                return _nodeRepository;
             }
         }
 
@@ -93,18 +92,6 @@ namespace FreakyByte.Elija.DataAccess.Repositories.Implementations
                     _deviceRepository = new Repository<Device>(Context);
                 }
                 return _deviceRepository;
-            }
-        }
-
-        public Repository<Section> SectionRepository
-        {
-            get
-            {
-                if (_sectionRepository == null)
-                {
-                    _sectionRepository = new Repository<Section>(Context);
-                }
-                return _sectionRepository;
             }
         }
 

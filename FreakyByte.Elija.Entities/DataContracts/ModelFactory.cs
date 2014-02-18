@@ -83,11 +83,11 @@ namespace FreakyByte.Elija.Entities.DataContracts
             };
         }
 
-        public static SectionModel CreateSectionModel(Section section)
+        public static SectionModel CreateSectionModel(Node node)
         {
             return new SectionModel
             {
-                Section = section.Name
+                Section = node.Name
             };
         }
 
@@ -110,13 +110,13 @@ namespace FreakyByte.Elija.Entities.DataContracts
             };
         }
 
-        public static ArticleModel CreateArticleMOdel(Article article, Image thumbnail, Image normalImage)
+        public static ArticleModel CreateArticleMOdel(Node article, Image thumbnail, Image normalImage)
         {
             return new ArticleModel
             {
-                Id = article.ArticleId,
-                Title = article.Title,
-                Descrition = article.Description,
+                Id = article.NodeId,
+                Title = article.Name,
+                Descrition = article.Text,
                 Images = CreateArticleImageModel(thumbnail, normalImage)
             };
         }

@@ -1,21 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="ElijaModelStoreContainer" CdmEntityContainer="ElijaEntities">
-    <EntitySetMapping Name="Article">
-      <EntityTypeMapping TypeName="ElijaModel.Article">
-        <MappingFragment StoreEntitySet="Article">
-          <ScalarProperty Name="ArticleId" ColumnName="ArticleId" />
-          <ScalarProperty Name="SectionId" ColumnName="SectionId" />
-          <ScalarProperty Name="Title" ColumnName="Title" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
+  <EntityContainerMapping StorageEntityContainer="BanquetesElijaModelStoreContainer" CdmEntityContainer="ElijaEntities">
     <EntitySetMapping Name="Authentication">
-      <EntityTypeMapping TypeName="ElijaModel.Authentication">
+      <EntityTypeMapping TypeName="BanquetesElijaModel.Authentication">
         <MappingFragment StoreEntitySet="Authentication">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Token" ColumnName="Token" />
@@ -24,7 +11,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Device">
-      <EntityTypeMapping TypeName="ElijaModel.Device">
+      <EntityTypeMapping TypeName="BanquetesElijaModel.Device">
         <MappingFragment StoreEntitySet="Device">
           <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
           <ScalarProperty Name="IMEI" ColumnName="IMEI" />
@@ -45,7 +32,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Image">
-      <EntityTypeMapping TypeName="ElijaModel.Image">
+      <EntityTypeMapping TypeName="BanquetesElijaModel.Image">
         <MappingFragment StoreEntitySet="Image">
           <ScalarProperty Name="ImageId" ColumnName="ImageId" />
           <ScalarProperty Name="Url" ColumnName="Url" />
@@ -53,29 +40,42 @@
           <ScalarProperty Name="Height" ColumnName="Height" />
           <ScalarProperty Name="Size" ColumnName="Size" />
           <ScalarProperty Name="ImageTypeId" ColumnName="ImageTypeId" />
-          <ScalarProperty Name="ArticleId" ColumnName="ArticleId" />
+          <ScalarProperty Name="NodeId" ColumnName="NodeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="ImageType">
-      <EntityTypeMapping TypeName="ElijaModel.ImageType">
+      <EntityTypeMapping TypeName="BanquetesElijaModel.ImageType">
         <MappingFragment StoreEntitySet="ImageType">
           <ScalarProperty Name="ImageTypeId" ColumnName="ImageTypeId" />
           <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Section">
-      <EntityTypeMapping TypeName="ElijaModel.Section">
-        <MappingFragment StoreEntitySet="Section">
-          <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+    <EntitySetMapping Name="Node">
+      <EntityTypeMapping TypeName="BanquetesElijaModel.Node">
+        <MappingFragment StoreEntitySet="Node">
+          <ScalarProperty Name="NodeId" ColumnName="NodeId" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Level" ColumnName="Level" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="NodeTypeId" ColumnName="NodeTypeId" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="NodeType">
+      <EntityTypeMapping TypeName="BanquetesElijaModel.NodeType">
+        <MappingFragment StoreEntitySet="NodeType">
+          <ScalarProperty Name="NodeTypeId" ColumnName="NodeTypeId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="User">
-      <EntityTypeMapping TypeName="ElijaModel.User">
+      <EntityTypeMapping TypeName="BanquetesElijaModel.User">
         <MappingFragment StoreEntitySet="User">
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
@@ -96,7 +96,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="UserDevice">
-      <EntityTypeMapping TypeName="ElijaModel.UserDevice">
+      <EntityTypeMapping TypeName="BanquetesElijaModel.UserDevice">
         <MappingFragment StoreEntitySet="UserDevice">
           <ScalarProperty Name="UserDeviceId" ColumnName="UserDeviceId" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -104,15 +104,6 @@
           <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
           <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
           <ScalarProperty Name="AuthenticationId" ColumnName="AuthenticationId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Video">
-      <EntityTypeMapping TypeName="ElijaModel.Video">
-        <MappingFragment StoreEntitySet="Video">
-          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
-          <ScalarProperty Name="Url" ColumnName="Url" />
-          <ScalarProperty Name="ArticleId" ColumnName="ArticleId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

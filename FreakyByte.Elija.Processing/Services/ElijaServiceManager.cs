@@ -242,24 +242,24 @@ namespace FreakyByte.Elija.Processing.Services
 
         #endregion
 
-        public static Result<SectionModel> GetSectionArticles(int sectionId, int page, int screenDensity, bool isWifi)
+        public static Result<SectionModel> GetSectionArticles(int nodeId, int page, int screenDensity, bool isWifi)
         {
             var result = new Result<SectionModel> {Success = true};
             List<ArticleModel> articleList;
 
-            var section = UnitOfWork.SectionRepository.FindFirstBy(e => e.SectionId == sectionId);
-            var sectionArticles = section.Article.Skip(PAGE_SIZE*page).Take(PAGE_SIZE).ToList();
+            var node = UnitOfWork.NodeRepository.FindFirstBy(e => e.NodeId == nodeId);
+            var nodeArticles = UnitOfWork.NodeRepository.FindAllBy(e => e.ParentId == node.NodeId, null);
 
             if (isWifi)
             {
-                articleList = GetHighQualityArticle(sectionArticles, screenDensity);
+                articleList = GetHighQualityArticle(nodeArticles, screenDensity);
             }
             else
             {
-                articleList = GetLowQualityArticle(sectionArticles, screenDensity);
+                articleList = GetLowQualityArticle(nodeArticles, screenDensity);
             }
 
-            var sectionModel = ModelFactory.CreateSectionModel(section);
+            var sectionModel = ModelFactory.CreateSectionModel(node);
             sectionModel.Article = articleList;
 
             result.Data = sectionModel;
@@ -267,13 +267,13 @@ namespace FreakyByte.Elija.Processing.Services
             return result;
         }
 
-        private static List<ArticleModel> GetHighQualityArticle(IEnumerable<Article> articles , int screenDensity)
+        private static List<ArticleModel> GetHighQualityArticle(IEnumerable<Node> articles , int screenDensity)
         {
             var articleList = new List<ArticleModel>();
             foreach (var item in articles)
             {
                 var thumbnail = (from thumb in item.Image
-                    where thumb.ArticleId == item.ArticleId && thumb.ImageTypeId == (int) ImageTypeEnum.Thumbnail
+                    where thumb.NodeId == item.NodeId && thumb.ImageTypeId == (int) ImageTypeEnum.Thumbnail
                     select thumb).FirstOrDefault();
 
                 Image normalImage;
@@ -283,18 +283,18 @@ namespace FreakyByte.Elija.Processing.Services
                     case 1:
                     case 2:
                         normalImage = (from image in item.Image
-                            where image.ArticleId == item.ArticleId && image.ImageTypeId == (int) ImageTypeEnum.Small
+                            where image.NodeId == item.NodeId && image.ImageTypeId == (int) ImageTypeEnum.Small
                             select image).FirstOrDefault();
                         break;
                     case 3:
                     case 4:
                         normalImage = (from image in item.Image
-                            where image.ArticleId == item.ArticleId && image.ImageTypeId == (int) ImageTypeEnum.Medium
+                            where image.NodeId == item.NodeId && image.ImageTypeId == (int) ImageTypeEnum.Medium
                             select image).FirstOrDefault();
                         break;
                     default:
                         normalImage = (from image in item.Image
-                            where image.ArticleId == item.ArticleId && image.ImageTypeId == (int) ImageTypeEnum.Large
+                            where image.NodeId == item.NodeId && image.ImageTypeId == (int) ImageTypeEnum.Large
                             select image).FirstOrDefault();
                         break;
                 }
@@ -306,14 +306,14 @@ namespace FreakyByte.Elija.Processing.Services
             return articleList;
         }
 
-        private static List<ArticleModel> GetLowQualityArticle(IEnumerable<Article> articles, int screenDensity)
+        private static List<ArticleModel> GetLowQualityArticle(IEnumerable<Node> articles, int screenDensity)
         {
             var articleList = new List<ArticleModel>();
             foreach (var item in articles)
             {
                 var thumbnail = (from thumb in item.Image
                     where
-                        thumb.ArticleId == item.ArticleId && thumb.ImageTypeId == (int) ImageTypeEnum.Thumbnail
+                        thumb.NodeId == item.NodeId && thumb.ImageTypeId == (int) ImageTypeEnum.Thumbnail
                     select thumb).FirstOrDefault();
 
                 Image normalImage;
@@ -324,7 +324,7 @@ namespace FreakyByte.Elija.Processing.Services
                     case 2:
                         normalImage = (from image in item.Image
                             where
-                                image.ArticleId == item.ArticleId &&
+                                image.NodeId == item.NodeId &&
                                 image.ImageTypeId == (int) ImageTypeEnum.SmallLowQuality
                             select image).FirstOrDefault();
                         break;
@@ -332,14 +332,14 @@ namespace FreakyByte.Elija.Processing.Services
                     case 4:
                         normalImage = (from image in item.Image
                             where
-                                image.ArticleId == item.ArticleId &&
+                                image.NodeId == item.NodeId &&
                                 image.ImageTypeId == (int) ImageTypeEnum.MediumLowQuality
                             select image).FirstOrDefault();
                         break;
                     default:
                         normalImage = (from image in item.Image
                             where
-                                image.ArticleId == item.ArticleId &&
+                                image.NodeId == item.NodeId &&
                                 image.ImageTypeId == (int) ImageTypeEnum.LargeLowQuality
                             select image).FirstOrDefault();
                         break;
