@@ -242,6 +242,30 @@ namespace FreakyByte.Elija.Processing.Services
 
         #endregion
 
+        public static Result<SectionModel> GetHomeArticles(int screenDensity, bool isWifi)
+        {
+            var result = new Result<SectionModel>() { Success = true };
+
+            var node = UnitOfWork.NodeRepository.FindAllBy(e => e.Level == 1, null).ToList();
+            var mainNode = node.FirstOrDefault(e => e.Name == "Main");
+
+            if (mainNode != null)
+            {
+                var mainArticles =
+                    UnitOfWork.NodeRepository.FindAllBy(e => e.Level == 2 && e.ParentId == mainNode.NodeId, null).ToList();
+                if (isWifi)
+                {
+                    var articleWithImageModel = GetHighQualityArticle(mainArticles, screenDensity);
+                }
+                else
+                {
+                    var articleWithImageModel = GetLowQualityArticle(mainArticles, screenDensity);
+                }
+            }
+
+            return result;
+        }
+
         public static Result<SectionModel> GetSectionArticles(int nodeId, int page, int screenDensity, bool isWifi)
         {
             var result = new Result<SectionModel> {Success = true};

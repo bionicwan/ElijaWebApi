@@ -8,7 +8,8 @@ namespace FreakyByte.Elija.WebApi.Controllers
     {
         public Result<SectionModel> Get(int id, int page=0, int screenDensity = 5, bool isWifi = true)
         {
-            var result = ElijaServiceManager.GetSectionArticles(id, page, screenDensity, isWifi);
+            //var result = ElijaServiceManager.GetSectionArticles(id, page, screenDensity, isWifi);
+            var result = ElijaServiceManager.GetHomeArticles(screenDensity, isWifi);
             return result;
         }
     }
